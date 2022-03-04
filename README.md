@@ -13,15 +13,17 @@ $ pip3 install superfluid_finance
 **2. set your environment variables**
 
 set your environment variables for the RPC provider
+
 if infura,
 ```
 $ export WEB3_INFURA_PROJECT_ID="0xhdgfyugwOFGF..."
 ```
-if your use moralis endpoints
+if you use moralis endpoints
 
 ```
 $ export MORALIS_{CHAIN}_URL="https://morali....."
 ```
+`**eg:** MORALIS_KOVAN_URL`
 
 For Alchemy,
 ```

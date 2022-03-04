@@ -1,7 +1,10 @@
 from setuptools import setup
 
+with open("README.md", "r") as des:
+    long_description=des.read()
+
 setup(
-    name="superfluid_finance",
+    name="superfluidpy",
     version="0.0.1",
     description="A python pachage for interacting with the superfluid-finance protocol in your application",
     py_modules=[
@@ -28,9 +31,18 @@ setup(
         "Operating System :: OS Independent"
     ],
     install_requires= [
-        "eth-brownie"
+        "eth-brownie",
+        "web3"
     ],
     extras_require = {
-        "dev": ["pytest>=3.7"]
-    }
+        "dev": [
+            "pytest>=3.7"
+        ]
+    },
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    author="Phidel Musungu",
+    author_email="mphidel@gmail.com",
+    maintainer="Phidel Musungu",
+    maintainer_email="mphidel@gmail.com"
 )
