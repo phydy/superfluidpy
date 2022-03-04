@@ -1,0 +1,5 @@
+include *.md
+include *.txt
+recursive-include src *.py
+recursive-include src *.sol
+recursive-include src *.yaml

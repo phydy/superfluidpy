@@ -6,7 +6,7 @@ with open("README.md", "r") as des:
 setup(
     name="superfluidpy",
     version="0.0.1",
-    description="A python pachage for interacting with the superfluid-finance protocol in your application",
+    description="A python package for interacting with the superfluid-finance protocol in your application",
     py_modules=[
         "host",
         "CFAV1",
@@ -27,7 +27,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Lincense :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+        "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent"
     ],
     install_requires= [
@@ -41,6 +41,7 @@ setup(
     },
     long_description=long_description,
     long_description_content_type="text/markdown",
+    url="https://github.com/phydy/superfluidpy",
     author="Phidel Musungu",
     author_email="mphidel@gmail.com",
     maintainer="Phidel Musungu",
