@@ -44,7 +44,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 **4. import the package:**
 ```
->>> import superfluid_finance
+>>> import superfluidpy
 ```
 
 Cconfirm the pachage is imported by running these commands.
@@ -68,7 +68,7 @@ True
 Test the host contract of your chain by running
 
 ```
->>> from superfluid_finance import host
+>>> from superfluidpy import host
 >>> ht = Host()
 >>> ht.get_address()
 ```

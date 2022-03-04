@@ -17,7 +17,7 @@ You can use the token addresses module to get common supertoken addresses availa
 **You can ignore the token_addresses if you are working with a custom supertoken**
 
 ```
->>> from superfluid_finance import supertoken, token_addresses
+>>> from superfluidpy import supertoken, token_addresses
 ```
 
 ```

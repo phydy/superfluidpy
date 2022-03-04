@@ -9,7 +9,7 @@ This Module enables us to interact with the ida interface from our python enviro
 
 ### Import The module
 ```
->>> from superfluid_finance.IDAV1 import * 
+>>> from superfluidpy.IDAV1 import * 
 ```
 This module uses one class to create an instance of the contract that is used to create the methods in the module. Unlike the super token module, this one does not require us to instantiate a class before interacting with the interface. The class automatically loads the contract on the active chain.
 
