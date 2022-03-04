@@ -1,0 +1,55 @@
+from web3 import Web3
+from brownie import chain, network, accounts
+import os
+from curses.ascii import isupper
+
+'''
+    * This file handles easy coonection to an RPC endpoint in a python environment
+'''
+
+'''
+    * connects to an infura node to the given chain
+    * chain should be in lower case
+    * @dev: export WEB3_INFURA_PROJECT_ID='infural api key'
+'''
+def infura_connect(chain):
+    return Web3(
+        Web3.HTTPProvider(
+            f"https://{chain}.infura.io/v3/{os.environ.get('WEB3_INFURA_PROJECT_ID')}"
+        )
+    )
+
+'''
+    * conects to the CHAIN via moralis
+    * chain should be upper case
+    * @dev: export MORALIS_{CHAIN}_ULS='moralis url' 
+'''
+def moralis_connect(CHAIN):
+    return Web3(
+        Web3.HTTPProvider(
+            f"{os.environ.get(f'MORALIS_{isupper(CHAIN)}_URL')}"
+        )
+    )
+
+'''
+    * conects to the CHAIN via moralis
+    * chain should be upper case
+    * @dev: export MORALIS_{CHAIN}_ULS='moralis url' 
+'''
+def alchemy_connect(CHAIN):
+    return Web3(
+        Web3.HTTPProvider(
+            f"{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_URL')}"
+        )
+    )
+'''
+    listens on port 8545 for an active node
+'''
+def connect_to_local():
+    return Web3(
+        Web3.HTTPProvider(
+            "http://127.0.0.1:8545"
+        )
+    )
+
+
