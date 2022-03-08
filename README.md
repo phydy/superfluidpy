@@ -8,7 +8,7 @@ Open the terminal then run these commands in your terminal.
 
 **1. Install the project**
 ```
-$ pip3 install superfluidpy
+$ pip3 install superfluid-finance
 ```
 **2. set your environment variables**
 
