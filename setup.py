@@ -4,21 +4,26 @@ with open("README.md", "r") as des:
     long_description=des.read()
 
 setup(
-    name="superfluidpy",
-    version="0.0.1",
+    name="superfluid-finance",
+    version="0.0.2",
     description="A python package for interacting with the superfluid-finance protocol in your application",
     py_modules=[
-        "host",
+        "superfluid",
+        "Superfluid",
         "CFAV1",
+        "CFA",
+        "IDA",
         "IDAV1",
         "provider",
         "supertoken",
-        "supertokenFactory",
-        "initializer",
+        "Supertoken",
+        "supertoken_factory",
+        "Factory",
         "provider",
         "token_addresses",
         "account_provider",
-        "con_addresses"
+        "con_addresses",
+        "host"
     ],
     package_dir={"": "src"},
     classifiers=[
@@ -30,6 +35,7 @@ setup(
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent"
     ],
+    include_package_data=True,
     install_requires= [
         "eth-brownie",
         "web3"

@@ -8,7 +8,7 @@ Open the terminal then run these commands in your terminal.
 
 **1. Install the project**
 ```
-$ pip3 install superfluid_finance
+$ pip3 install superfluidpy
 ```
 **2. set your environment variables**
 
@@ -44,33 +44,25 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 **4. import the package:**
 ```
->>> import superfluidpy
+>>> import superfluid
+>>> from superfluid import host
 ```
 
 Cconfirm the pachage is imported by running these commands.
 
 **NOTE:** ensure you have exported the appropirate environment variables
 ```
->>> from superfluid_finance import provider
+>>> import provider
 >>> provider.infura_connect(kovan)
 ```
 
-Confirm the network is connected by running thses lines of code
+### Test the host contract of your chain by running
 
 ```
->>> from brownie import network
-```
-```
->>>network.is_connected()
-True
-```
-
-Test the host contract of your chain by running
-
-```
->>> from superfluidpy import host
->>> ht = Host()
+>>> 
+>>> ht = host.Host("kovan", "infura")
 >>> ht.get_address()
+'0xF0d7d1D47109bA426B9D8A3Cde1941327af1eea3'
 ```
 
 ## Specialized examples

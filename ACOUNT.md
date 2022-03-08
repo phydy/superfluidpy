@@ -11,7 +11,7 @@ This module has only three functions that enable one to easily access a user's a
 ### local development acoounts
 
 ```
->>> from superfluidpy import accounts_provider as a
+>>> from superfluid import accounts_provider as a
 ```
 ```
 >>> account = a.account(0)
@@ -21,7 +21,7 @@ This will return an accounts object that you can use to sign transactions when w
 ### Locally stored accounts
 
 ```
->>> from superfluidpy import accounts_provider as a
+>>> import accounts_provider as a
 ```
 ```
 >>> account = a.load_account("string")
@@ -30,7 +30,7 @@ This will return an accounts object that you can use to sign transactions on a l
 
 ### Accounts stored as enviroment Variables
 ```
->>> from superfluidpy import accounts_provider as a
+>>> import accounts_provider as a
 ```
 ```
 >>> account = a.get_account("STRING")

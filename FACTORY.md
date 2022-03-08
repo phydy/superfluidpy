@@ -6,27 +6,22 @@ To interact with the supertoken Factory contract on a particular chain, You firs
 
 ### Importing the pachage
 ```
->>> from superfluidpy import provider, supertoken_factory
->>> from superfluidpy import accounts_provider as a
+>>> from superfluid import supertoken_factory
+>>> import accounts_provider as a
 ```
-### connecting to an endpoind and intancuating an account object
-```
->>> provider.infura_connect("kovan")
-```
-You can choose any network where the superfluid contracts are deployed
-
+### instanciate an account object
 ```
 >>> account = a.get_account("ENV_VARIABLE_NAME")
 ```
 ### Instantiate The factory contract on that chain
 
 ```
->>> factory = SupertokenFatory()
+>>> factory = supertoken_factory.SupertokenFatory("kovan", "infura")
 ```
 
 Now you have a factory object connected to a factory contract on the active chain
 
-Interactig with the factory con=tract is as easy as calling methods of the factory object
+Interactig with the factory contract is as easy as calling methods of the factory object
 
 ## Functions on the factory object
 

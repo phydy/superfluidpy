@@ -1,44 +1,34 @@
 from brownie import *
 from brownie import accounts, chain
 from con_addresses import addresses, is_allowed_network
-from initializer import superfluid
-from handler import RPCError, NotFoundError
-
-superfluid.load_config()
+from provider import *
+import json
+from Factory import abi
 
 class SupertokenFatory:
 
-    @classmethod
-    def get_address(cls):
-        try:
-            if network.is_connected() == False:
-                raise RPCError(
-                    "connect to a network"
-                )
-            if is_allowed_network(chain.id) == False:
-                raise NotFoundError(
-                    f'network {chain.id} not found'
-                )
-            return addresses[chain.id]["factory"]
-        except ValueError as r:
-            print(r)
+    def __init__(self, network, provider):
+        self.network=network
+        self.provider=provider
 
 
-    def get_factory_interface():
-        return superfluid.interface.IInstantDistributionAgreementV1(
-            SupertokenFatory.get_address()
-        )
+    def get_address(self):
+        return addresses[self.network]["host"]
 
 
-    factory_interface = get_factory_interface()
+    def get_interface(self):
+        w3 = provider_connect(self.provider, self.network)
+        return w3.eth.contract(address=self.get_address(), abi=json.dumps(abi))
+
+
 
     '''
         /// @dev Initialize the contract
     '''
     def initialize(self, account):
-        return SupertokenFatory.get_factory_interface.initialize(
-            {"from": account}
-        )
+        factory_interface = self.get_interface()
+        return factory_interface.functions.initialize(
+        ).transact({"from":account})
 
     '''
         /**
@@ -51,14 +41,14 @@ class SupertokenFatory:
          */
     '''
     def create_ERC20Wraper_decimals(self, underlying_token, underlyingDecimals, upgradability, name, symbol, account):
-        return SupertokenFatory.factory_interface.createERC20Wrapper(
+        factory_interface = self.get_interface()
+        return factory_interface.functions.createERC20Wrapper(
             underlying_token,
             underlyingDecimals,
             upgradability,
             name,
-            symbol,
-            {"from":account}
-        )
+            symbol
+        ).transact({"from":account})
 
 
     '''
@@ -74,13 +64,13 @@ class SupertokenFatory:
          */
     '''
     def create_ERC20Wraper(self, underlying_token, upgradability, name, symbol, account):
-        return SupertokenFatory.factory_interface.createERC20Wrapper(
+        factory_interface = self.get_interface()
+        return factory_interface.functions.createERC20Wrapper(
             underlying_token,
             upgradability,
             name,
-            symbol,
-            {"from":account}
-        )
+            symbol
+        ).transact({"from":account})
 
 
     '''
@@ -89,7 +79,8 @@ class SupertokenFatory:
          */
     '''
     def get_host(self):
-        return SupertokenFatory.factory_interface.getHost()
+        factory_interface = self.get_interface()
+        return factory_interface.functions.getHost().call()
 
     '''
         /**
@@ -97,10 +88,11 @@ class SupertokenFatory:
          */
     '''
     def get_supertoken_logic(self):
-        return SupertokenFatory.factory_interface.getSuperTokenLogic()
+        factory_interface = self.get_interface()
+        return factory_interface.functions.getSuperTokenLogic().call()
 
     def initialize_custom_supertoken(self, customSuperTokenProxy, account):
-        return SupertokenFatory.factory_interface.initializeCustomSuperToken(
-            customSuperTokenProxy,
-            {"from":account}
-        )
+        factory_interface = self.get_interface()
+        return factory_interface.functions.initializeCustomSuperToken(
+            customSuperTokenProxy
+        ).transact({"from":account})

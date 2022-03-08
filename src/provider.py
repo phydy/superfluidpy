@@ -52,4 +52,12 @@ def connect_to_local():
         )
     )
 
-
+def provider_connect(provider, chain):
+    if provider == "infura":
+        return infura_connect(chain)
+    if provider == "alchemy":
+        return alchemy_connect(chain)
+    if provider == "moralis":
+        return moralis_connect(chain)
+    else:
+        return connect_to_local()

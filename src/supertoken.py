@@ -1,20 +1,22 @@
 from brownie import *
 from brownie import accounts, chain
-from con_addresses import addresses, avaibale_chains, is_allowed_network
-from initializer import superfluid
-from handler import NotFoundError, RPCError
+from con_addresses import addresses, is_allowed_network
+from Supertoken import abi
+from provider import *
+import json
 
 addresses
 
 class SuperToken:
-    def __init__(self, address):
+    def __init__(self, network, provider, address):
         self.address = address
+        self.network=network
+        self.provider=provider
 
     
     def get_interface(self):
-        return superfluid.interface.ISuperToken(self.address)
-
-    interface = get_interface()
+        w3 = provider_connect(self.provider, self.network)
+        return w3.eth.contract(address=self.address, abi=json.dumps(abi))
     
     '''
         /**
@@ -22,7 +24,8 @@ class SuperToken:
         */
     '''
     def name(self):
-        return SuperToken.interface.name()
+        interface = self.get_interface()
+        return interface.functions.name().call()
     
     '''
     /**
@@ -31,7 +34,8 @@ class SuperToken:
      */
     '''
     def symbol(self):
-        return SuperToken.interface.symbol()
+        interface = self.get_interface()
+        return interface.functions.symbol().call()
     
 
     '''
@@ -52,7 +56,8 @@ class SuperToken:
          */
     '''
     def decimals(self):
-        return SuperToken.interface.decimals()
+        interface = self.get_interface()
+        return interface.functions.decimals()
     
 
     '''
@@ -61,14 +66,16 @@ class SuperToken:
     */
     '''
     def total_supply(self):
-        return SuperToken.interface.totalSupply()
+        interface = self.get_interface()
+        return interface.functions.totalSupply()
     
     '''
         /// @param _owner The address from which the balance will be retrieved
         /// @return balance the balance
     '''
-    def balance_of(_owner):
-        return SuperToken.interface.balanceOf(_owner)
+    def balance_of(self, _owner):
+        interface = self.get_interface()
+        return interface.functions.balanceOf(_owner).call()
 
 
     '''
@@ -80,10 +87,11 @@ class SuperToken:
     '''
 
     def transfer(self, _to, _value, account):
-        return SuperToken.interface.transfer(
+        interface = self.get_interface()
+        return interface.functions.transfer(
             _to,
-            _value,
-            {"from":account})
+            _value
+        ).transact({"from": account})
 
     '''
         * @param _owner The address of the account owning tokens
@@ -92,10 +100,11 @@ class SuperToken:
 
     '''
     def allowance(self, _owner, _spender):
-        return SuperToken.interface.allowance(
+        interface = self.get_interface()
+        return interface.functions.allowance(
             _owner,
             _spender
-        )
+        ).call()
 
     '''
         * @notice `msg.sender` approves `_addr` to spend `_value` tokens
@@ -111,12 +120,12 @@ class SuperToken:
         _value,
         account
     ):
-        return SuperToken.interface.transferFrom(
+        interface = self.get_interface()
+        return interface.functions.transferFrom(
             _from,
             _to,
-            _value,
-            {"from":account}
-        )
+            _value
+        ).transact({"from": account})
     '''
     * @notice `msg.sender` approves `_addr` to spend `_value` tokens
     * @param _spender The address of the account able to transfer the tokens
@@ -125,11 +134,11 @@ class SuperToken:
 
     '''
     def approve(self, _spender, _value, account):
-        return SuperToken.interface.approve(
+        interface = self.get_interface()
+        return interface.functions.approve(
             _spender,
-            _value,
-            {"from":account}
-        )
+            _value
+        ).transact({"from": account})
     ''' 
         /**
          * @dev Atomically increases the allowance granted to `spender` by the caller.
@@ -145,11 +154,11 @@ class SuperToken:
     */
     '''
     def increase_allowance(self, _spender, value, account):
-        return SuperToken.interface.increaseAllowance(
+        interface = self.get_interface()
+        return interface.functions.increaseAllowance(
             _spender,
-            value,
-            {"from":account}
-        )
+            value
+        ).transact({"from": account})
 
 
     '''
@@ -169,11 +178,11 @@ class SuperToken:
          */
     '''
     def decrease_allowance(self, _spender, value, account):
-        return SuperToken.interface.decreaseAllowance(
+        interface = self.get_interface()
+        return interface.functions.decreaseAllowance(
             _spender,
-            value,
-            {"from":account}
-        )
+            value
+        ).transact({"from": account})
     '''
         /**
          * @dev Returns the smallest part of the token that is not divisible. This
@@ -184,7 +193,8 @@ class SuperToken:
          */
     '''
     def granularity(self):
-        return SuperToken.interface.granularity()
+        interface = self.get_interface()
+        return interface.functions.granularity().call()
 
     '''
         /**
@@ -205,12 +215,12 @@ class SuperToken:
          */
     '''
     def send(self, _rcepient, _amount, _calldata, account):
-        return SuperToken.interface.send(
+        interface = self.get_interface()
+        return interface.functions.send(
             _rcepient,
             _amount,
-            _calldata,
-            {"from":account}
-        )
+            _calldata
+        ).transact({"from": account})
     ''''
         /**
          * @dev Destroys `amount` tokens from the caller's account, reducing the
@@ -227,11 +237,11 @@ class SuperToken:
          */
     '''
     def burn(self, _amount, _data, account):
-        return SuperToken.interface.burn(
+        interface = self.get_interface()
+        return interface.functions.burn(
             _amount,
-            _data,
-            {"from":account}
-        )
+            _data
+        ).transact({"from": account})
 
 
     '''
@@ -244,10 +254,11 @@ class SuperToken:
          */
     '''
     def is_operator_for(self, _operator, holder):
-        return SuperToken.interface.isOperatorFor(
+        interface = self.get_interface()
+        return interface.functions.isOperatorFor(
             _operator,
             holder
-        )
+        ).call()
     '''
         /**
          * @dev Make an account an operator of the caller.
@@ -263,10 +274,10 @@ class SuperToken:
     '''
 
     def authorize_operator(self, operator, account):
-        return SuperToken.interface.authorizeOperator(
-            operator,
-            {"from":account}
-        )
+        interface = self.get_interface()
+        return interface.functions.authorizeOperator(
+            operator
+        ).transact({"from": account})
     
     '''
         /**
@@ -282,10 +293,10 @@ class SuperToken:
          */
     '''
     def revoke_operator(self, operator, account):
-        return SuperToken.interface.revokeOperator(
-            operator,
-            {"from":account}
-        )
+        interface = self.get_interface()
+        return interface.functions.revokeOperator(
+            operator
+        ).transact({"from": account})
 
 
     '''
@@ -299,7 +310,8 @@ class SuperToken:
          */
     '''
     def default_operators(self):
-        return SuperToken.interface.defaultOperators()
+        interface = self.get_interface()
+        return interface.functions.defaultOperators().call()
 
 
     '''
@@ -326,14 +338,14 @@ class SuperToken:
     '''
 
     def operator_send(self, sender, recepient, amount, data, operatorData, account):
-        return SuperToken.interface.operatorSend(
+        interface = self.get_interface()
+        return interface.functions.operatorSend(
             sender,
             recepient,
             amount,
             data,
-            operatorData,
-            {"from":account}
-        )
+            operatorData
+        ).transact({"from": account})
     '''
         /**
          * @dev Destroys `amount` tokens from `account`, reducing the total supply.
@@ -352,13 +364,13 @@ class SuperToken:
          */
     '''
     def operator_burn(self, account_, amount, data, operatorData, account):
-        return SuperToken.interface.operatorBurn(
+        interface = self.get_interface()
+        return interface.functions.operatorBurn(
             account_,
             amount,
             data,
-            operatorData,
-            {"from":account}
-        )
+            operatorData
+        ).transact({"from": account})
     '''
         /**
          * @dev Mint new tokens for the account
@@ -368,11 +380,11 @@ class SuperToken:
          */
     '''
     def safe_mint(self, account_, amount, account):
-        return SuperToken.interface.safeMint(
+        interface = self.get_interface()
+        return interface.functions.safeMint(
             account_,
-            amount,
-             {"from":account}
-        )
+            amount
+        ).transact({"from": account})
 
     '''
        /**
@@ -383,12 +395,12 @@ class SuperToken:
         */
     '''
     def safe_burn(self, account_, amount, userData, account):
-        return SuperToken.interface.safeBurn(
+        interface = self.get_interface()
+        return interface.functions.safeBurn(
             account_,
             amount,
-            userData,
-            {"from":account}
-        )
+            userData
+        ).transact({"from":account})
 
     '''
         /**
@@ -396,8 +408,10 @@ class SuperToken:
          */
     '''
     def tranfer_all(self, receipient, account):
-        return SuperToken.interface.transferAll(
-            receipient,
+        interface = self.get_interface()
+        return interface.functions.transferAll(
+            receipient
+        ).transact(
             {"from":account}
         )
 
@@ -412,7 +426,10 @@ class SuperToken:
          */
     '''
     def upgrade(self, amount, account):
-        return SuperToken.interface.upgrade(amount, {"from":account})
+        interface = self.get_interface()
+        return interface.functions.upgrade(
+            amount
+        ).transact({"from":account})
 
     '''
         /**
@@ -426,12 +443,12 @@ class SuperToken:
          */
     '''
     def upgrade_to(self, _to, amount, data, account):
-        return SuperToken.interface.upgradeTo(
+        interface = self.get_interface()
+        return interface.functions.upgradeTo(
             _to,
             amount,
-            data,
-            {"from":account}
-        )
+            data
+        ).transact({"from":account})
 
     '''
         /**
@@ -441,7 +458,8 @@ class SuperToken:
          */
     '''
     def downgrade(self, amount, account):
-        return SuperToken.interface.downgrade(amount, {"from":account})
+        interface = self.get_interface()
+        return interface.functions.downgrade(amount).transact({"from":account})
 
     '''
         /**
@@ -450,6 +468,7 @@ class SuperToken:
          */
     '''
     def get_uderlying_token(self):
-        return SuperToken.interface.getUnderlyingToken()
+        interface = self.get_interface()
+        return interface.functions.getUnderlyingToken().call()
     
     
