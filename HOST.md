@@ -9,7 +9,7 @@ This Module enables us to interact with the superfluid interface from our python
 
 ### Import The module
 ```
->>> from superfluidpy.host import * 
+>>> from superfluid_finance.host import Host 
 ```
 This module uses one class to create an instance of the contract that is used to create the methods in the module. Unlike the super token module, this one does not require us to instantiate a class before interacting with the interface. The class automatically loads the interface on the active chain.
 

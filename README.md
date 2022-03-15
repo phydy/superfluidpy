@@ -8,7 +8,7 @@ Open the terminal then run these commands in your terminal.
 
 **1. Install the project**
 ```
-$ pip3 install superfluid-finance
+$ pip3 install superfluid_finance
 ```
 **2. set your environment variables**
 
@@ -44,8 +44,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 **4. import the package:**
 ```
->>> import superfluid
->>> from superfluid import host
+>>> 
+>>> from superfluid_finance.host import Host
 ```
 
 Cconfirm the pachage is imported by running these commands.
@@ -60,7 +60,7 @@ Cconfirm the pachage is imported by running these commands.
 
 ```
 >>> 
->>> ht = host.Host("kovan", "infura")
+>>> ht = Host("kovan", "infura")
 >>> ht.get_address()
 '0xF0d7d1D47109bA426B9D8A3Cde1941327af1eea3'
 ```

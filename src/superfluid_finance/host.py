@@ -1,11 +1,11 @@
 from brownie import accounts, chain, network
-from con_addresses import addresses, is_allowed_network
+from superfluid_finance.con_addresses import addresses, is_allowed_network
 from web3 import Web3
 import os
 import requests
 import json
-from Superfluid import abi
-from provider import *
+from superfluid_finance.Superfluid import abi
+from superfluid_finance.provider import *
 
 #network.connect("kovan")
 #print(network.is_connected())

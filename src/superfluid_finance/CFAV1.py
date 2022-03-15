@@ -1,9 +1,9 @@
 from brownie import *
 from brownie import accounts, chain
-from provider import *
-from con_addresses import addresses, is_allowed_network
+from superfluid_finance.provider import *
+from superfluid_finance.con_addresses import addresses, is_allowed_network
 import json
-from CFA import abi
+from superfluid_finance.CFA import abi
 
 class CFA:
 

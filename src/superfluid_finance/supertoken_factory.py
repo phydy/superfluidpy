@@ -1,9 +1,9 @@
 from brownie import *
 from brownie import accounts, chain
-from con_addresses import addresses, is_allowed_network
-from provider import *
+from superfluid_finance.con_addresses import addresses, is_allowed_network
+from superfluid_finance.provider import *
 import json
-from Factory import abi
+from superfluid_finance.Factory import abi
 
 class SupertokenFatory:
 

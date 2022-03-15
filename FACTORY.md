@@ -6,7 +6,7 @@ To interact with the supertoken Factory contract on a particular chain, You firs
 
 ### Importing the pachage
 ```
->>> from superfluid import supertoken_factory
+>>> from superfluid_finance.supertoken_factory import SupertokenFatory 
 >>> import accounts_provider as a
 ```
 ### instanciate an account object
@@ -16,7 +16,7 @@ To interact with the supertoken Factory contract on a particular chain, You firs
 ### Instantiate The factory contract on that chain
 
 ```
->>> factory = supertoken_factory.SupertokenFatory("kovan", "infura")
+>>> factory = SupertokenFatory("kovan", "infura")
 ```
 
 Now you have a factory object connected to a factory contract on the active chain

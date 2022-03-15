@@ -13,7 +13,7 @@ Each function uses a different provider
 ### local development network
 
 ```
->>> from superfluidpy import provider as p
+>>> from superfluid_finance import provider as p
 ```
 ```
 >>> p.connect_to_local()

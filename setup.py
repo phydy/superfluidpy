@@ -5,25 +5,25 @@ with open("README.md", "r") as des:
 
 setup(
     name="superfluid-finance",
-    version="0.0.2",
+    version="0.0.3",
     description="A python package for interacting with the superfluid-finance protocol in your application",
     py_modules=[
-        "superfluid",
-        "Superfluid",
-        "CFAV1",
-        "CFA",
-        "IDA",
-        "IDAV1",
-        "provider",
-        "supertoken",
-        "Supertoken",
-        "supertoken_factory",
-        "Factory",
-        "provider",
-        "token_addresses",
-        "account_provider",
-        "con_addresses",
-        "host"
+        "superfluid_finance"
+        #"Superfluid",
+        #"CFAV1",
+        #"CFA",
+        #"IDA",
+        #"IDAV1",
+        #"provider",
+        #"supertoken",
+        #"Supertoken",
+        #"supertoken_factory",
+        #"Factory",
+        #"provider",
+        #"token_addresses",
+        #"account_provider",
+        #"con_addresses",
+        #"host"
     ],
     package_dir={"": "src"},
     classifiers=[

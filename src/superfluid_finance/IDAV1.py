@@ -1,8 +1,8 @@
 from brownie import *
-from provider import *
+from superfluid_finance.provider import *
 from brownie import accounts, chain
-from con_addresses import addresses, is_allowed_network
-from IDA import abi
+from superfluid_finance.con_addresses import addresses, is_allowed_network
+from superfluid_finance.IDA import abi
 import json
 
 '''
