@@ -13,7 +13,9 @@ class SuperToken:
         self.network=network
         self.provider=provider
 
-    
+    def get_w3_instance(self):
+        return provider_connect(self.provider, self.network)
+
     def get_interface(self):
         w3 = provider_connect(self.provider, self.network)
         return w3.eth.contract(address=self.address, abi=json.dumps(abi))
@@ -87,11 +89,25 @@ class SuperToken:
     '''
 
     def transfer(self, _to, _value, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.transfer(
+        trx =  interface.functions.transfer(
             _to,
             _value
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         * @param _owner The address of the account owning tokens
@@ -120,12 +136,27 @@ class SuperToken:
         _value,
         account
     ):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.transferFrom(
+        trx =  interface.functions.transferFrom(
             _from,
             _to,
             _value
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
+
     '''
     * @notice `msg.sender` approves `_addr` to spend `_value` tokens
     * @param _spender The address of the account able to transfer the tokens
@@ -134,11 +165,25 @@ class SuperToken:
 
     '''
     def approve(self, _spender, _value, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.approve(
+        trx =  interface.functions.approve(
             _spender,
             _value
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     ''' 
         /**
          * @dev Atomically increases the allowance granted to `spender` by the caller.
@@ -154,11 +199,25 @@ class SuperToken:
     */
     '''
     def increase_allowance(self, _spender, value, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.increaseAllowance(
+        trx =  interface.functions.increaseAllowance(
             _spender,
             value
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -178,11 +237,25 @@ class SuperToken:
          */
     '''
     def decrease_allowance(self, _spender, value, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.decreaseAllowance(
+        trx =  interface.functions.decreaseAllowance(
             _spender,
             value
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     '''
         /**
          * @dev Returns the smallest part of the token that is not divisible. This
@@ -215,12 +288,26 @@ class SuperToken:
          */
     '''
     def send(self, _rcepient, _amount, _calldata, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.send(
+        trx =  interface.functions.send(
             _rcepient,
             _amount,
             _calldata
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     ''''
         /**
          * @dev Destroys `amount` tokens from the caller's account, reducing the
@@ -237,11 +324,25 @@ class SuperToken:
          */
     '''
     def burn(self, _amount, _data, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.burn(
+        trx =  interface.functions.burn(
             _amount,
             _data
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -274,10 +375,24 @@ class SuperToken:
     '''
 
     def authorize_operator(self, operator, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.authorizeOperator(
+        trx =  interface.functions.authorizeOperator(
             operator
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     
     '''
         /**
@@ -293,10 +408,24 @@ class SuperToken:
          */
     '''
     def revoke_operator(self, operator, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.revokeOperator(
+        trx =  interface.functions.revokeOperator(
             operator
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -338,14 +467,28 @@ class SuperToken:
     '''
 
     def operator_send(self, sender, recepient, amount, data, operatorData, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.operatorSend(
+        trx =  interface.functions.operatorSend(
             sender,
             recepient,
             amount,
             data,
             operatorData
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     '''
         /**
          * @dev Destroys `amount` tokens from `account`, reducing the total supply.
@@ -364,13 +507,27 @@ class SuperToken:
          */
     '''
     def operator_burn(self, account_, amount, data, operatorData, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.operatorBurn(
+        trx =  interface.functions.operatorBurn(
             account_,
             amount,
             data,
             operatorData
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
     '''
         /**
          * @dev Mint new tokens for the account
@@ -380,11 +537,25 @@ class SuperToken:
          */
     '''
     def safe_mint(self, account_, amount, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.safeMint(
+        trx =  interface.functions.safeMint(
             account_,
             amount
-        ).transact({"from": account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
        /**
@@ -395,12 +566,26 @@ class SuperToken:
         */
     '''
     def safe_burn(self, account_, amount, userData, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.safeBurn(
+        trx =  interface.functions.safeBurn(
             account_,
             amount,
             userData
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         /**
@@ -408,12 +593,24 @@ class SuperToken:
          */
     '''
     def tranfer_all(self, receipient, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.transferAll(
+        trx = interface.functions.transferAll(
             receipient
-        ).transact(
-            {"from":account}
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
         )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -426,10 +623,24 @@ class SuperToken:
          */
     '''
     def upgrade(self, amount, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.upgrade(
+        trx =  interface.functions.upgrade(
             amount
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         /**
@@ -443,12 +654,26 @@ class SuperToken:
          */
     '''
     def upgrade_to(self, _to, amount, data, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.upgradeTo(
+        trx =  interface.functions.upgradeTo(
             _to,
             amount,
             data
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         /**
@@ -458,8 +683,22 @@ class SuperToken:
          */
     '''
     def downgrade(self, amount, account):
+        w3 = self.get_w3_instance()
         interface = self.get_interface()
-        return interface.functions.downgrade(amount).transact({"from":account})
+        trx = interface.functions.downgrade(amount).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         /**

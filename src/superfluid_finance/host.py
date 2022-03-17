@@ -1,25 +1,10 @@
-from brownie import accounts, chain, network
+from brownie import accounts, chain, network, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from web3 import Web3
-import os
-import requests
 import json
 from superfluid_finance.Superfluid import abi
 from superfluid_finance.provider import *
 
-#network.connect("kovan")
-#print(network.is_connected())
-#api_key = os.environ.get("ETHERSCAN_TOKEN")
-#address = addresses["kovan"]['host']
-
-
-#abi = requests.get(f"https://api.etherscan.io/api?module=contract&action=getabi&address={address}&apikey={api_key}")
-#a = json.loads(abi)
-#print(a)
-#
-
-
-#print(help(abi))
 class Host():
 
     def __init__(self, network, provider):
@@ -30,7 +15,8 @@ class Host():
     def get_address(self):
         return addresses[self.network]["host"]
 
-
+    def get_w3_instance(self):
+        return provider_connect(self.network, self.provider)
 
     def get_interface(self):
         w3 = provider_connect(self.provider, self.network)
@@ -236,18 +222,24 @@ class Host():
          * contract.
     ''' 
     def call_agreement(self, agreementClass, calldata, userdata, account):
+        w3 = self.get_w3_instance()
         host_interface = self.get_interface()
-        return host_interface.functions.callAgreement(
+        trx = host_interface.functions.callAgreement(
             agreementClass,
-            calldata,
-            userdata,
-        ).transact({"from": account})
+            convert.to_bytes(calldata),
+            convert.to_bytes(userdata),
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
 
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
-#host = Host("kovan", "infura")
-#print(json.dumps(abi))
-#print(host.get_address())
-#print(host.get_SuperTokenFactory())
-#abi = requests.get(f"https://api.etherscan.io/api?module=contract&action=getabi&address={address}&apikey={api_key}")
-#a = json.loads(abi)
-#print(a)

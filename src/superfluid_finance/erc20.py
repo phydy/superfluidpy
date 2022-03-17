@@ -1,10 +1,7 @@
 
 from brownie import *
 from brownie import accounts, chain
-from con_addresses import addresses, avaibale_chains, is_allowed_network
-from initializer import superfluid
-from handler import NotFoundError, RPCError
-
+from superfluid_finance.con_addresses import addresses, avaibale_chains, is_allowed_network
 
 class ERC20:
     def __init__(self, address):

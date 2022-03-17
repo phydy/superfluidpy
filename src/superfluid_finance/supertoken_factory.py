@@ -1,5 +1,5 @@
 from brownie import *
-from brownie import accounts, chain
+from brownie import accounts, chain, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from superfluid_finance.provider import *
 import json
@@ -11,9 +11,11 @@ class SupertokenFatory:
         self.network=network
         self.provider=provider
 
+    def get_w3_instance(self):
+        return provider_connect(self.provider, self.network)
 
     def get_address(self):
-        return addresses[self.network]["host"]
+        return addresses[self.network]["factory"]
 
 
     def get_interface(self):
@@ -26,9 +28,23 @@ class SupertokenFatory:
         /// @dev Initialize the contract
     '''
     def initialize(self, account):
+        w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
-        return factory_interface.functions.initialize(
-        ).transact({"from":account})
+        trx = factory_interface.functions.initialize(
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
     '''
         /**
@@ -41,14 +57,28 @@ class SupertokenFatory:
          */
     '''
     def create_ERC20Wraper_decimals(self, underlying_token, underlyingDecimals, upgradability, name, symbol, account):
+        w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
-        return factory_interface.functions.createERC20Wrapper(
+        trx = factory_interface.functions.createERC20Wrapper(
             underlying_token,
             underlyingDecimals,
             upgradability,
             name,
             symbol
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -64,13 +94,27 @@ class SupertokenFatory:
          */
     '''
     def create_ERC20Wraper(self, underlying_token, upgradability, name, symbol, account):
+        w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
-        return factory_interface.functions.createERC20Wrapper(
+        trx = factory_interface.functions.createERC20Wrapper(
             underlying_token,
             upgradability,
             name,
             symbol
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
 
 
     '''
@@ -92,7 +136,21 @@ class SupertokenFatory:
         return factory_interface.functions.getSuperTokenLogic().call()
 
     def initialize_custom_supertoken(self, customSuperTokenProxy, account):
+        w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
-        return factory_interface.functions.initializeCustomSuperToken(
+        trx = factory_interface.functions.initializeCustomSuperToken(
             customSuperTokenProxy
-        ).transact({"from":account})
+        ).buildTransaction(
+            {   
+                "nonce": w3.eth.get_transaction_count(account.address),
+                "chainId": w3.eth.chain_id,
+                "gas": 2000000,
+                'maxFeePerGas': w3.toWei('2', 'gwei'),
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+            }
+
+        )
+        private_key=account.private_key
+        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
+        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        print(signing_tx)
