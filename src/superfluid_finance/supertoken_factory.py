@@ -12,7 +12,10 @@ class SupertokenFatory:
         self.provider=provider
 
     def get_w3_instance(self):
-        return provider_connect(self.provider, self.network)
+        return provider_connect(
+            self.network,
+            self.provider
+        )
 
     def get_address(self):
         return addresses[self.network]["factory"]
@@ -20,7 +23,10 @@ class SupertokenFatory:
 
     def get_interface(self):
         w3 = provider_connect(self.provider, self.network)
-        return w3.eth.contract(address=self.get_address(), abi=json.dumps(abi))
+        return w3.eth.contract(
+            address=self.get_address(),
+            abi=json.dumps(abi)
+        )
 
 
 
@@ -44,7 +50,7 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
         /**
@@ -78,7 +84,7 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -114,7 +120,7 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -153,4 +159,4 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"

@@ -1,7 +1,9 @@
 from brownie import *
 from brownie import accounts, chain, convert
 from superfluid_finance.provider import *
+from superfluid_finance.host import Host
 from superfluid_finance.con_addresses import addresses, is_allowed_network
+from superfluid_finance.helper import AgreementDataGiver
 import json
 from superfluid_finance.CFA import abi
 from web3 import Web3
@@ -13,16 +15,29 @@ class CFA:
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
+        self.context_giver=AgreementDataGiver(self.network, self.provider)
 
+    def get_host(self):
+        network = self.network
+        provider = self.provider
+        return Host(network, provider)
 
     def get_address(self):
-        return convert.to_address(addresses[self.network]["cfa"])
+        return convert.to_address(
+            addresses[self.network]["cfa"]
+        )
 
     def get_w3_instance(self):
-        return provider_connect(self.provider, self.network)
+        return provider_connect(
+            self.network,
+            self.provider
+        )
 
     def get_interface(self):
-        w3 = provider_connect(self.provider, self.network)
+        w3 = provider_connect(
+            self.network,
+            self.provider
+        )
         return w3.eth.contract(address=self.get_address(), abi=json.dumps(abi))
 
 
@@ -40,7 +55,6 @@ class CFA:
     '''
 
     def get_flow(self, token, sender, receiver):
-        w3 = self.get_w3_instance()
         cfa_interface = self.get_interface()
         tx_value = cfa_interface.functions.getFlow(
             token,
@@ -69,31 +83,29 @@ class CFA:
          * - A extra gas fee may be taken to pay for solvency agent liquidations.
          */
     '''
-    def create_flow(self, token, receiver, flowRate, account, ctx):
-        w3 = self.get_w3_instance()
-        cfa_interface = self.get_interface()
-        trx = cfa_interface.functions.createFlow(
-            convert.to_address(token),
-            convert.to_address(receiver),
-            convert.to_int(flowRate),
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+    def create_flow(self, token, receiver, flowRate, ctx, account):
+        #cfa_interface = self.get_interface()
+        #encoded_data = cfa_interface.encodeABI(
+        #    fn_name="createFlow",
+        #    args=[
+        #        convert.to_address(token),
+        #        convert.to_address(receiver),
+        #        convert.to_int(flowRate),
+        #        convert.to_bytes(0)
+        #    ]
+        #)
+        #cfa_address = convert.to_address(addresses[self.network]["cfa"])
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.context_giver.get_create_flow(
+                token,
+                receiver,
+                flowRate
+            ), 
+            self.get_address(),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
-        
-        
-
 
     '''
         /**
@@ -116,28 +128,18 @@ class CFA:
          * - No new gas fee is charged.
          */
     '''
-    def update_flow(self, token, receiver, flowRate, account, ctx):
-        w3 = self.get_w3_instance()
-        cfa_interface = self.get_interface()
-        trx = cfa_interface.functions.updateFlow(
-            convert.to_address(token),
-            convert.to_address(receiver),
-            convert.to_int(flowRate),
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+    def update_flow(self, token, receiver, flowRate, ctx, account):
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            self.context_giver.get_update_flow(
+                token,
+                receiver,
+                flowRate
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
 
 
     '''
@@ -161,28 +163,17 @@ class CFA:
          */
     '''
     def delete_flow(self, token, sender, receiver, ctx, account):
-        w3 = self.get_w3_instance()
-        cfa_interface = self.get_interface()
-        trx = cfa_interface.functions.deleteFlow(
-            convert.to_address(token),
-            convert.to_address(sender),
-            convert.to_address(receiver),
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            self.context_giver.get_delete_flow(
+                token,
+                sender,
+                receiver
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
-
 
     '''
 

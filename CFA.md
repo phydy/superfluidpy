@@ -1,13 +1,21 @@
-# The Constant Flow Agreement Module
+# **The Constant Flow Agreement Module**
 
 This Module enables us to interact with the cfa interface from our python environment.
 
-## Working ith the module
+## **Working ith the module**
 
-### Connect to an rpc endpoint using [**the provider Module**](/PROVIDE.md)
-### Load an account using [**the account_provider module**](/ACOUNT.md)
+## Load an account using 
+[**the account_provider module**](/ACOUNT.md)
 
-### Import The module
+## Or using brownie
+```
+from brownie import accounts
+```
+```
+account = accounts.load(<local account name>)
+```
+
+## Import The module
 ```
 >>> from superfluid_finance.CFAV1 import CFA 
 ```
@@ -22,4 +30,23 @@ This import gets us ready to use cfa functions
 ```
 >>>cfa.getFlow(token, sender, receiver)
 ```
-Returns the flow info of a flow of token from sender to receiver
+### Returns the flow info of a flow of token from sender to receiver
+
+ . @dev Get the flow data between `sender` and `receiver`.
+ . token Super token address.
+ . sender Flow receiver.
+ . receiver Flow sender.
+ . timestamp Timestamp of when the flow is updated.
+ . flowRate The flow rate.
+ . deposit The amount of deposit the flow.
+ . owedDeposit The amount of owed deposit of the flow.
+
+```
+>>>(0,0,0,0)
+```
+## **Create A Flow**
+
+```
+>>>cfa.createFlow(token, receiver, flowRate, context, account)
+```
+### Returns a transaction hash and receipt

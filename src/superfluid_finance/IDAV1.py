@@ -1,28 +1,34 @@
 from brownie import *
+from superfluid_finance.host import Host
 from superfluid_finance.provider import *
 from brownie import accounts, chain, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from superfluid_finance.IDA import abi
 import json
+from superfluid_finance.helper import AgreementDataGiver 
 
 '''
-    the instand distribution agreement class
+    the instant distribution agreement class
 '''
 class IDA:
 
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
+        self.context_giver=AgreementDataGiver(self.network, self.provider)
 
     def get_w3_istance(self):
         return provider_connect(self.network, self.provider)
+
+    def get_host(self):
+        return Host(self.network, self.provider)
 
     def get_address(self):
         return addresses[self.network]["ida"]
 
 
     def get_interface(self):
-        w3 = provider_connect(self.provider, self.network)
+        w3 = provider_connect(self.network, self.provider)
         return w3.eth.contract(address=self.get_address(), abi=json.dumps(abi))
 
 
@@ -42,26 +48,17 @@ class IDA:
          * None
          */
     '''
-    def create_index(self, token, indexID, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.createIndex(
-            convert.to_address(token),
-            convert.to_uint(indexID)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+    def create_index(self, token, indexID, ctx, account):
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            self.context_giver.get_create_index(
+                token,
+                indexID
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
 
 
     '''
@@ -118,27 +115,17 @@ class IDA:
          */
     '''
     def update_index(self, token, IndexID, indexValue, ctx, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.updateIndex(
-            convert.to_address(token),
-            IndexID,
-            indexValue,
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            self.context_giver.get_update_index(
+                token,
+                IndexID,
+                indexValue
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
 
     '''
         /**
@@ -160,27 +147,16 @@ class IDA:
          */ 
     '''
     def distribute_ida(self, token, indexID, amount, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.distribute(
-            convert.to_address(token),
-            indexID,
-            amount
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(),
+            self.context_giver.get_distribute(
+                token,
+                indexID,
+                amount
+            ),
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
-
     '''
         /**************************************************************************
          * Subscription operations
@@ -203,29 +179,19 @@ class IDA:
          */
 
     '''
-    def approve_subscription(self, token, publisher, indexId, ctx, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.approveSubscription(
-            convert.to_address(token),
-            convert.to_address(publisher),
-            indexId,
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+    def approve_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(),
+            self.context_giver.get_approve_sub(
+                token,
+                publisher,
+                indexId,
+                subscriber
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
-
 
     '''
         /**
@@ -239,28 +205,19 @@ class IDA:
         *    - agreementId is for the subscription
         */
     '''
-    def revoke_subscription(self, token, publisher, indexId, ctx, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.revokeSubscription(
-            convert.to_address(token),
-            convert.to_address(publisher),
-            indexId,
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+    def revoke_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(),
+            self.context_giver.get_revoke_sub(
+                token,
+                publisher,
+                indexId,
+                subscriber
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
 
 
     '''
@@ -282,28 +239,18 @@ class IDA:
          */
     '''
     def update_subscription(self, token, indexId, subscriber, units, ctx, account):
-        w3 = self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.updateSubscription(
-            convert.to_address(token),
-            indexId,
-            convert.to_address(subscriber),
-            units,
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(),
+            self.context_giver.get_update_sub(
+                token,
+                indexId,
+                subscriber,
+                units
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
 
 
     '''
@@ -384,28 +331,19 @@ class IDA:
     '''
 
     def delete_subscription(self, token, publisher, indexId, subscriber, ctx, account):
-        w3 =self.get_w3_istance()
-        ida_interface = self.get_interface()
-        trx = ida_interface.functions.deleteSubscription(
-            convert.to_address(token),
-            convert.to_address(publisher),
-            indexId,
-            convert.to_address(subscriber),
-            convert.to_bytes(ctx)
-        ).buildTransaction(
-            {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
-            }
-
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(),
+            self.context_giver.get_delete_sub(
+                token,
+                publisher,
+                indexId,
+                subscriber
+            ),
+            ctx,
+            account
         )
-        private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+
 
     '''
         /**

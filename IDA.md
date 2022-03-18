@@ -14,3 +14,8 @@ This Module enables us to interact with the ida interface from our python enviro
 This module uses one class to create an instance of the contract that is used to create the methods in the module. Unlike the super token module, this one does not require us to instantiate a class before interacting with the interface. The class automatically loads the contract on the active chain.
 
 This import gets us ready to use functions
+
+```
+>>>ida = IDA("kovan", "infura")
+```
+

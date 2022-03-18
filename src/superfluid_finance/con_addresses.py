@@ -20,31 +20,36 @@ addresses = {
         "host":"0xF0d7d1D47109bA426B9D8A3Cde1941327af1eea3",
         "cfa" :"0xECa8056809e7e8db04A8fF6e4E82cD889a46FE2F",
         "ida" :"0x556ba0b3296027Dd7BCEb603aE53dEc3Ac283d2b",
-        "factory": "0xF5F666AC8F581bAef8dC36C7C8828303Bd4F8561"
+        "factory": "0xF5F666AC8F581bAef8dC36C7C8828303Bd4F8561",
+        "giver": "0x3C30447e4E339beFAfa1577119297B5bC30BFDB1"
     },
     "mumbai": {
         "host": "0xEB796bdb90fFA0f28255275e16936D25d3418603",
         "cfa" : "0xEd6BcbF6907D4feEEe8a8875543249bEa9D308E8",
         "ida" : "0xfDdcdac21D64B639546f3Ce2868C7EF06036990c",
-        "factory": "0x200657E2f123761662567A1744f9ACAe50dF47E6"
+        "factory": "0x200657E2f123761662567A1744f9ACAe50dF47E6",
+        "giver": "0x552BB1960A54Fe3Dde4F792baA01976ABCDFDcfb"
     },
     "goerli": {
         "host" :"0x22ff293e14F1EC3A09B137e9e06084AFd63adDF9", 
         "cfa" :"0xEd6BcbF6907D4feEEe8a8875543249bEa9D308E8", 
         "ida" :"0xfDdcdac21D64B639546f3Ce2868C7EF06036990c",
-        "factory": "0x94f26B4c8AD12B18c12f38E878618f7664bdcCE2"
+        "factory": "0x94f26B4c8AD12B18c12f38E878618f7664bdcCE2",
+        "giver": "0xbB07bE32b320aCFF4F2c05cf61d663b2b89F757A"
     },
     "rinkeby" : {
         "host": "0xeD5B5b32110c3Ded02a07c8b8e97513FAfb883B6",
         "cfa": "0xF4C5310E51F6079F601a5fb7120bC72a70b96e2A",
         "ida": "0x32E0ecb72C1dDD92B007405F8102c1556624264D",
-        "factory": "0xd465e36e607d493cd4CC1e83bea275712BECd5E0"
+        "factory": "0xd465e36e607d493cd4CC1e83bea275712BECd5E0",
+        "giver": "0x002Abea9655958B59b47930FDf8B7d3ed10E10b5"
     },
     "ropsten" : {
         "host": "0xF2B4E81ba39F5215Db2e05B2F66f482BB8e87FD2",
         "cfa": "0xaD2F1f7cd663f6a15742675f975CcBD42bb23a88",
         "ida": "0xAD1e87F0C74341ecAFc1d27349dD6e650f5bAdD7",
-        "factory": "0x6FA165d10b907592779301C23C8Ac9d1F79ca930"
+        "factory": "0x6FA165d10b907592779301C23C8Ac9d1F79ca930",
+        "giver": "0xC89b03c370a733881aaC610E84265E3559dDD984"
     }
 }
 

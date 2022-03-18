@@ -81,11 +81,11 @@ Get the current super token logic used by the factory
     )
 ```
 ### Breakdown
- * @dev Create new super token wrapper for the underlying ERC20 token with extra token info
- * @param underlyingToken Underlying ERC20 token
- * @param upgradability Upgradability mode
- * @param name Super token name
- * @param symbol Super token symbol
+ *  Create new super token wrapper for the underlying ERC20 token with extra token info
+ *  underlyingToken Underlying ERC20 token
+ *  upgradability Upgradability mode
+ *  name Super token name
+ *  symbol Super token symbol
  *
  * NOTE:
  * - It assumes token provides the .decimals() function

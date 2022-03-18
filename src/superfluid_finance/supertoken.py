@@ -14,10 +14,10 @@ class SuperToken:
         self.provider=provider
 
     def get_w3_instance(self):
-        return provider_connect(self.provider, self.network)
+        return provider_connect(self.network, self.provider)
 
     def get_interface(self):
-        w3 = provider_connect(self.provider, self.network)
+        w3 = provider_connect(self.network, self.provider)
         return w3.eth.contract(address=self.address, abi=json.dumps(abi))
     
     '''
@@ -100,14 +100,16 @@ class SuperToken:
                 "chainId": w3.eth.chain_id,
                 "gas": 2000000,
                 'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei'),
+                'from': account.address
             }
 
         )
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return signing_tx.hash
+        #print(signing_tx)
 
     '''
         * @param _owner The address of the account owning tokens
@@ -210,14 +212,15 @@ class SuperToken:
                 "chainId": w3.eth.chain_id,
                 "gas": 2000000,
                 'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+                'maxPriorityFeePerGas': w3.toWei('1', 'gwei'),
+                'from': account.address
             }
 
         )
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return w3.eth.send_transaction(signing_tx.rawTransaction)
+        #print(signing_tx)
 
 
     '''

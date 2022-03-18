@@ -1,3 +1,4 @@
+from random import random
 from brownie import accounts, chain, network, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from web3 import Web3
@@ -10,17 +11,26 @@ class Host():
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
+        self.w3=provider_connect(self.network, self.provider)
 
 
     def get_address(self):
-        return addresses[self.network]["host"]
+        return convert.to_address(
+            addresses[self.network]["host"]
+        )
 
     def get_w3_instance(self):
-        return provider_connect(self.network, self.provider)
+        return provider_connect(
+            self.network,
+            self.provider
+        )
 
     def get_interface(self):
-        w3 = provider_connect(self.provider, self.network)
-        return w3.eth.contract(address=self.get_address(), abi=json.dumps(abi))
+        w3 = provider_connect(self.network, self.provider)
+        return w3.eth.contract(
+            address=self.get_address(),
+            abi=json.dumps(abi)
+        )
 
 
     '''
@@ -66,7 +76,7 @@ class Host():
     '''
     def get_aggrementClass(self, agreementType):
         host_interface = self.get_interface()
-        return host_interface.functions.isAgreementClassListed(agreementType).call()
+        return host_interface.functions.getAgreementClassListed(agreementType).call()
 
     '''
        /**
@@ -222,24 +232,26 @@ class Host():
          * contract.
     ''' 
     def call_agreement(self, agreementClass, calldata, userdata, account):
-        w3 = self.get_w3_instance()
+        #w3 = self.get_w3_instance()
         host_interface = self.get_interface()
         trx = host_interface.functions.callAgreement(
             agreementClass,
-            convert.to_bytes(calldata),
+            calldata,
             convert.to_bytes(userdata),
         ).buildTransaction(
             {   
-                "nonce": w3.eth.get_transaction_count(account.address),
-                "chainId": w3.eth.chain_id,
-                "gas": 2000000,
-                'maxFeePerGas': w3.toWei('2', 'gwei'),
-                'maxPriorityFeePerGas': w3.toWei('1', 'gwei')
+                "nonce": self.w3.eth.get_transaction_count(account.address),
+                "chainId": self.w3.eth.chain_id,
+                "gas": 2000000,#self.w3.eth.gas_price
+                'maxFeePerGas': self.w3.toWei("2", "gwei"),
+                'maxPriorityFeePerGas': self.w3.toWei("1", "gwei"),
             }
 
         )
         private_key=account.private_key
-        signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
-
+        signing_tx=self.w3.eth.account.sign_transaction(trx, private_key=private_key)
+        self.w3.eth.send_raw_transaction(signing_tx.rawTransaction)
+        #w3.eth.wait_for_transaction_receipt(tx_hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}"
+        )

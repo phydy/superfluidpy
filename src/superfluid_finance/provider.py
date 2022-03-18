@@ -52,7 +52,7 @@ def connect_to_local():
         )
     )
 
-def provider_connect(provider, chain):
+def provider_connect(chain, provider):
     if provider == "infura":
         return infura_connect(chain)
     if provider == "alchemy":
