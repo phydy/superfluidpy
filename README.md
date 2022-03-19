@@ -16,7 +16,7 @@ set your environment variables for the RPC provider
 
 if infura,
 ```
-$ export WEB3_INFURA_PROJECT_ID="0xhdgfyugwOFGF..."
+$ export WEB3_INFURA_PROJECT_ID="aF2hdgfyugwOFGF..."
 ```
 if you use moralis endpoints
 
@@ -27,7 +27,7 @@ $ export MORALIS_{CHAIN}_URL="https://morali....."
 
 For Alchemy,
 ```
-$ export ALCHEMY_{CHAIN}_URL= "https://alchemy....."
+$ export ALCHEMY_{CHAIN}_KEY= "ft3s0hDFF#....."
 ```
 
 if you wish for another provider, open an issue on github and we will try to includ it soonest

@@ -5,7 +5,6 @@ from brownie import accounts, chain, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from superfluid_finance.IDA import abi
 import json
-from superfluid_finance.helper import AgreementDataGiver 
 
 '''
     the instant distribution agreement class
@@ -15,7 +14,6 @@ class IDA:
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
-        self.context_giver=AgreementDataGiver(self.network, self.provider)
 
     def get_w3_istance(self):
         return provider_connect(self.network, self.provider)
@@ -49,13 +47,21 @@ class IDA:
          */
     '''
     def create_index(self, token, indexID, ctx, account):
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="createIndex",
+            args=[
+                token,
+                indexID,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
         host = Host(self.network, self.provider)
         return host.call_agreement(
             self.get_address(), 
-            self.context_giver.get_create_index(
-                token,
-                indexID
-            ),
+            actual_data,
             ctx,
             account
         )
@@ -115,14 +121,22 @@ class IDA:
          */
     '''
     def update_index(self, token, IndexID, indexValue, ctx, account):
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="updateIndex",
+            args=[
+                token,
+                IndexID,
+                indexValue,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
         host = Host(self.network, self.provider)
         return host.call_agreement(
             self.get_address(), 
-            self.context_giver.get_update_index(
-                token,
-                IndexID,
-                indexValue
-            ),
+            actual_data,
             ctx,
             account
         )
@@ -147,14 +161,23 @@ class IDA:
          */ 
     '''
     def distribute_ida(self, token, indexID, amount, account):
-        host = Host(self.network, self.provider)
-        return host.call_agreement(
-            self.get_address(),
-            self.context_giver.get_distribute(
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="distribute",
+            args=[
                 token,
                 indexID,
-                amount
-            ),
+                amount,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            actual_data,
+            "",
             account
         )
     '''
@@ -180,15 +203,23 @@ class IDA:
 
     '''
     def approve_subscription(self, token, publisher, indexId, subscriber, ctx, account):
-        host = Host(self.network, self.provider)
-        return host.call_agreement(
-            self.get_address(),
-            self.context_giver.get_approve_sub(
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="createIndex",
+            args=[
                 token,
                 publisher,
                 indexId,
-                subscriber
-            ),
+                subscriber,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            actual_data,
             ctx,
             account
         )
@@ -206,15 +237,23 @@ class IDA:
         */
     '''
     def revoke_subscription(self, token, publisher, indexId, subscriber, ctx, account):
-        host = Host(self.network, self.provider)
-        return host.call_agreement(
-            self.get_address(),
-            self.context_giver.get_revoke_sub(
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="createIndex",
+            args=[
                 token,
                 publisher,
                 indexId,
-                subscriber
-            ),
+                subscriber,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            actual_data,
             ctx,
             account
         )
@@ -239,15 +278,23 @@ class IDA:
          */
     '''
     def update_subscription(self, token, indexId, subscriber, units, ctx, account):
-        host = Host(self.network, self.provider)
-        return host.call_agreement(
-            self.get_address(),
-            self.context_giver.get_update_sub(
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="createIndex",
+            args=[
                 token,
                 indexId,
                 subscriber,
-                units
-            ),
+                units,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            actual_data,
             ctx,
             account
         )
@@ -331,15 +378,23 @@ class IDA:
     '''
 
     def delete_subscription(self, token, publisher, indexId, subscriber, ctx, account):
-        host = Host(self.network, self.provider)
-        return host.call_agreement(
-            self.get_address(),
-            self.context_giver.get_delete_sub(
+        ida = self.get_interface()
+        encoded_data = ida.encodeABI(
+            fn_name="createIndex",
+            args=[
                 token,
                 publisher,
                 indexId,
-                subscriber
-            ),
+                subscriber,
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
+        host = Host(self.network, self.provider)
+        return host.call_agreement(
+            self.get_address(), 
+            actual_data,
             ctx,
             account
         )
@@ -383,6 +438,6 @@ class IDA:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"tx hash: {signing_tx.hash}"
 
 

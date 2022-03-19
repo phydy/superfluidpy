@@ -9,7 +9,6 @@ This creates a Super Token object linked to the interface of the token address p
 You can use the token addresses module to get common supertoken addresses available on the superfluid's network page
 
 ## Working with the class
-### Connect to an rpc endpoint using [**the provider Module**](/PROVIDE.md)
 ### Load an account using [**the account_provider module**](/ACOUNT.md)
 
 ### import the supertoken and token_addresses modules
@@ -17,7 +16,7 @@ You can use the token addresses module to get common supertoken addresses availa
 **You can ignore the token_addresses if you are working with a custom supertoken**
 
 ```
->>> from superfluidpy import supertoken, token_addresses
+>>> from superfluid_finance import supertoken, token_addresses
 ```
 
 ```

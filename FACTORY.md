@@ -7,7 +7,7 @@ To interact with the supertoken Factory contract on a particular chain, You firs
 ### Importing the pachage
 ```
 >>> from superfluid_finance.supertoken_factory import SupertokenFatory 
->>> import accounts_provider as a
+>>> from superfluid_finance import accounts_provider as a
 ```
 ### instanciate an account object
 ```

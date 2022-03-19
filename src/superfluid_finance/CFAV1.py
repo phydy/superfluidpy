@@ -3,7 +3,6 @@ from brownie import accounts, chain, convert
 from superfluid_finance.provider import *
 from superfluid_finance.host import Host
 from superfluid_finance.con_addresses import addresses, is_allowed_network
-from superfluid_finance.helper import AgreementDataGiver
 import json
 from superfluid_finance.CFA import abi
 from web3 import Web3
@@ -15,7 +14,10 @@ class CFA:
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
-        self.context_giver=AgreementDataGiver(self.network, self.provider)
+        self.w3=provider_connect(
+            self.network,
+            self.provider
+        )
 
     def get_host(self):
         network = self.network
@@ -27,11 +29,6 @@ class CFA:
             addresses[self.network]["cfa"]
         )
 
-    def get_w3_instance(self):
-        return provider_connect(
-            self.network,
-            self.provider
-        )
 
     def get_interface(self):
         w3 = provider_connect(
@@ -84,25 +81,22 @@ class CFA:
          */
     '''
     def create_flow(self, token, receiver, flowRate, ctx, account):
-        #cfa_interface = self.get_interface()
-        #encoded_data = cfa_interface.encodeABI(
-        #    fn_name="createFlow",
-        #    args=[
-        #        convert.to_address(token),
-        #        convert.to_address(receiver),
-        #        convert.to_int(flowRate),
-        #        convert.to_bytes(0)
-        #    ]
-        #)
-        #cfa_address = convert.to_address(addresses[self.network]["cfa"])
+        cfa_interface = self.get_interface()
+        encoded_data = cfa_interface.encodeABI(
+            fn_name="createFlow",
+            args=[
+                convert.to_address(token),
+                convert.to_address(receiver),
+                convert.to_int(flowRate),
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
         host = Host(self.network, self.provider)
         return host.call_agreement(
-            self.context_giver.get_create_flow(
-                token,
-                receiver,
-                flowRate
-            ), 
             self.get_address(),
+            actual_data, 
             ctx,
             account
         )
@@ -129,14 +123,22 @@ class CFA:
          */
     '''
     def update_flow(self, token, receiver, flowRate, ctx, account):
+        cfa_interface = self.get_interface()
+        encoded_data = cfa_interface.encodeABI(
+            fn_name="updateFlow",
+            args=[
+                convert.to_address(token),
+                convert.to_address(receiver),
+                convert.to_int(flowRate),
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
         host = Host(self.network, self.provider)
         return host.call_agreement(
             self.get_address(), 
-            self.context_giver.get_update_flow(
-                token,
-                receiver,
-                flowRate
-            ),
+            actual_data,
             ctx,
             account
         )
@@ -163,14 +165,22 @@ class CFA:
          */
     '''
     def delete_flow(self, token, sender, receiver, ctx, account):
+        cfa_interface = self.get_interface()
+        encoded_data = cfa_interface.encodeABI(
+            fn_name="updateFlow",
+            args=[
+                convert.to_address(token),
+                convert.to_address(sender),
+                convert.to_address(receiver),
+                ""
+            ]
+        )
+        bytes_data = self.w3.toBytes(hexstr=f"{encoded_data}")
+        actual_data = bytes_data[:(len(bytes_data) - 32)]
         host = Host(self.network, self.provider)
         return host.call_agreement(
             self.get_address(), 
-            self.context_giver.get_delete_flow(
-                token,
-                sender,
-                receiver
-            ),
+            actual_data,
             ctx,
             account
         )

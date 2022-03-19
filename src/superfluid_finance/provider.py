@@ -1,7 +1,7 @@
 from web3 import Web3
 from brownie import chain, network, accounts
 import os
-from curses.ascii import isupper
+from curses.ascii import islower, isupper
 
 '''
     * This file handles easy coonection to an RPC endpoint in a python environment
@@ -37,9 +37,30 @@ def moralis_connect(CHAIN):
     * @dev: export MORALIS_{CHAIN}_ULS='moralis url' 
 '''
 def alchemy_connect(CHAIN):
+    if islower(CHAIN) == "kovan" or "ropsten" or "goerli" or "rinkeby":
+        return Web3(
+            Web3.HTTPProvider(
+                f"https://eth-{islower(CHAIN)}.alchemyapi.io/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+            )
+        )
+    elif islower(CHAIN) == "mumbai":
+        return Web3(
+            Web3.HTTPProvider(
+                f"https://polygon-mumbai.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+            )
+        )
+    elif islower(CHAIN) == "polygon":
+        return Web3(
+            Web3.HTTPProvider(
+                f"https://polygon-mainnet.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+            )
+        )
+    
+    #https://polygon-mumbai.g.alchemy.com/v2/aSB4f4sQyhP4goBApkLYqU4TVMeqI4Vs
+    #https://eth-kovan.alchemyapi.io/v2/QRVXuuPuJUI5tfuNpyQJrIZH5Rn2AGBf
     return Web3(
         Web3.HTTPProvider(
-            f"{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_URL')}"
+            f"{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
         )
     )
 '''

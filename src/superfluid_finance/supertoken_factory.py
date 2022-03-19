@@ -11,6 +11,9 @@ class SupertokenFatory:
         self.network=network
         self.provider=provider
 
+    def __str__(self) -> str:
+        return "SuperTokenFactory Class"
+
     def get_w3_instance(self):
         return provider_connect(
             self.network,
@@ -62,7 +65,9 @@ class SupertokenFatory:
          * @param symbol Super token symbol
          */
     '''
-    def create_ERC20Wraper_decimals(self, underlying_token, underlyingDecimals, upgradability, name, symbol, account):
+    def create_ERC20Wraper_decimals(
+        self, underlying_token, underlyingDecimals, upgradability, name, symbol, account
+    ):
         w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
         trx = factory_interface.functions.createERC20Wrapper(

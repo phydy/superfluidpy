@@ -219,8 +219,8 @@ class SuperToken:
         )
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
-        return w3.eth.send_transaction(signing_tx.rawTransaction)
-        #print(signing_tx)
+        w3.eth.send_transaction(signing_tx.rawTransaction)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -258,7 +258,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
     '''
         /**
          * @dev Returns the smallest part of the token that is not divisible. This
@@ -310,7 +310,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
     ''''
         /**
          * @dev Destroys `amount` tokens from the caller's account, reducing the
@@ -345,7 +345,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -395,7 +395,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
     
     '''
         /**
@@ -428,7 +428,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -491,7 +491,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
     '''
         /**
          * @dev Destroys `amount` tokens from `account`, reducing the total supply.
@@ -530,7 +530,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
     '''
         /**
          * @dev Mint new tokens for the account
@@ -558,7 +558,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
        /**
@@ -588,7 +588,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
         /**
@@ -613,7 +613,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
 
     '''
@@ -643,7 +643,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
         /**
@@ -676,7 +676,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
         /**
@@ -701,7 +701,7 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        return f"hash: {signing_tx.hash}"
 
     '''
         /**

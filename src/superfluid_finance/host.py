@@ -251,7 +251,8 @@ class Host():
         private_key=account.private_key
         signing_tx=self.w3.eth.account.sign_transaction(trx, private_key=private_key)
         self.w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        #w3.eth.wait_for_transaction_receipt(tx_hash)
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
         return (
-            f"hash: {self.w3.toHex(signing_tx.hash)}"
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
         )

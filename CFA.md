@@ -44,9 +44,10 @@ This import gets us ready to use cfa functions
 ```
 >>>(0,0,0,0)
 ```
+the return valueis a tuple
 ## **Create A Flow**
 
 ```
 >>>cfa.createFlow(token, receiver, flowRate, context, account)
 ```
-### Returns a transaction hash and receipt
+### Returns a transaction hash

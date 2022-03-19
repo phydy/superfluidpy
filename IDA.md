@@ -4,7 +4,6 @@ This Module enables us to interact with the ida interface from our python enviro
 
 ## Working ith the module
 
-### Connect to an rpc endpoint using [**the provider Module**](/PROVIDE.md)
 ### Load an account using [**the account_provider module**](/ACOUNT.md)
 
 ### Import The module

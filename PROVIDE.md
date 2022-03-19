@@ -44,6 +44,11 @@ True
 >>> p.alchemy_connect("KOVAN")
 ```
 
+***NOTE*** **For `infura` and `alchemy`, all you have to do is export your api key to an environment variable**
+
+***NOTE*** **For `moralis` export the whole URL into the environment variable**
+
 ***NOTE:*** **The arguments for alchemy and Moralis should be given in upercase**
 
 This will return an accounts object that you can use to sign transactions on a live network.
+

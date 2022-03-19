@@ -35,3 +35,10 @@ This will return an accounts object that you can use to sign transactions on a l
 ```
 >>> account = a.get_account("STRING")
 ```
+
+>you will be promtedt to enter the `account password` to unlock the account
+
+## **NOTE** the sting is the name of the localy stored account.
+### You can find more about storing an account locally with [brownie](https://eth-brownie.readthedocs.io/en/stable/account-management.html#local-accounts)
+
+With this account object, you can sign and send transactions from your console in the superfluid_finance module
