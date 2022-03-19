@@ -5,7 +5,7 @@ with open("README.md", "r") as des:
 
 setup(
     name="superfluid-finance",
-    version="0.0.3",
+    version="0.0.4",
     description="A python package for interacting with the superfluid-finance protocol in your application",
     py_modules=[
         "superfluid_finance"
