@@ -9,21 +9,6 @@ setup(
     description="A python package for interacting with the superfluid-finance protocol in your application",
     py_modules=[
         "superfluid_finance"
-        #"Superfluid",
-        #"CFAV1",
-        #"CFA",
-        #"IDA",
-        #"IDAV1",
-        #"provider",
-        #"supertoken",
-        #"Supertoken",
-        #"supertoken_factory",
-        #"Factory",
-        #"provider",
-        #"token_addresses",
-        #"account_provider",
-        #"con_addresses",
-        #"host"
     ],
     package_dir={"": "src"},
     classifiers=[
@@ -33,7 +18,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Operating System :: OS Independent"
     ],
     include_package_data=True,
