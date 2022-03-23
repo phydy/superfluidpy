@@ -12,6 +12,7 @@ class SuperToken:
         self.address = address
         self.network=network
         self.provider=provider
+        self.w3=provider_connect(self.network, self.provider)
 
     def get_w3_instance(self):
         return provider_connect(self.network, self.provider)
@@ -157,7 +158,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
     * @notice `msg.sender` approves `_addr` to spend `_value` tokens
@@ -185,7 +190,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        print(signing_tx)
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     ''' 
         /**
          * @dev Atomically increases the allowance granted to `spender` by the caller.
@@ -220,7 +229,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -258,7 +271,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     '''
         /**
          * @dev Returns the smallest part of the token that is not divisible. This
@@ -310,7 +327,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     ''''
         /**
          * @dev Destroys `amount` tokens from the caller's account, reducing the
@@ -345,7 +366,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -395,7 +420,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     
     '''
         /**
@@ -428,7 +457,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -491,7 +524,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     '''
         /**
          * @dev Destroys `amount` tokens from `account`, reducing the total supply.
@@ -530,7 +567,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
     '''
         /**
          * @dev Mint new tokens for the account
@@ -558,7 +599,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
        /**
@@ -588,7 +633,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
         /**
@@ -613,7 +662,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -643,7 +696,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
         /**
@@ -676,7 +733,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
         /**
@@ -701,7 +762,11 @@ class SuperToken:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
         /**

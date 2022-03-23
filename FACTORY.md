@@ -11,7 +11,11 @@ To interact with the supertoken Factory contract on a particular chain, You firs
 ```
 ### instanciate an account object
 ```
->>> account = a.get_account("ENV_VARIABLE_NAME")
+>>> account = a.get_account("<ENV_VARIABLE_NAME>")
+```
+`or`
+```
+>>>account = a.load_account("<local account name>") 
 ```
 ### Instantiate The factory contract on that chain
 

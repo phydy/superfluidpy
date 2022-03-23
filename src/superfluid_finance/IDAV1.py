@@ -14,6 +14,7 @@ class IDA:
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
+        self.w3=provider_connect(self.network, self.provider)
 
     def get_w3_istance(self):
         return provider_connect(self.network, self.provider)

@@ -32,7 +32,7 @@ def moralis_connect(CHAIN):
     )
 
 '''
-    * conects to the CHAIN via moralis
+    * conects to the CHAIN via ALCHEMY
     * chain should be upper case
     * @dev: export MORALIS_{CHAIN}_ULS='moralis url' 
 '''
@@ -56,13 +56,6 @@ def alchemy_connect(CHAIN):
             )
         )
     
-    #https://polygon-mumbai.g.alchemy.com/v2/aSB4f4sQyhP4goBApkLYqU4TVMeqI4Vs
-    #https://eth-kovan.alchemyapi.io/v2/QRVXuuPuJUI5tfuNpyQJrIZH5Rn2AGBf
-    return Web3(
-        Web3.HTTPProvider(
-            f"{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
-        )
-    )
 '''
     listens on port 8545 for an active node
 '''

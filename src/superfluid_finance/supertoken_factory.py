@@ -10,6 +10,10 @@ class SupertokenFatory:
     def __init__(self, network, provider):
         self.network=network
         self.provider=provider
+        self.w3=provider_connect(
+            self.network,
+            self.provider
+        )
 
     def __str__(self) -> str:
         return "SuperTokenFactory Class"
@@ -53,7 +57,11 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
     '''
         /**
@@ -89,7 +97,11 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -125,7 +137,11 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )
 
 
     '''
@@ -164,4 +180,8 @@ class SupertokenFatory:
         private_key=account.private_key
         signing_tx=w3.eth.account.sign_transaction(trx, private_key=private_key)
         w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        return f"hash: {signing_tx.hash}"
+        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        return (
+            f"hash: {self.w3.toHex(signing_tx.hash)}",
+            f"hash: {self.w3.toHex(tx_rc)}"
+        )

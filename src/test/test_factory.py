@@ -8,7 +8,7 @@ def factory():
     return SupertokenFatory("kovan", "infura")
 
 def test_view_function(factory):
-    host =factory.get_Host()
+    host = factory.get_Host()
     host_local = con_addresses.addresses[factory.network]["host"]
 
     assert(host == host_local)
