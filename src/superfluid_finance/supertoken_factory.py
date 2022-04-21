@@ -3,7 +3,7 @@ from brownie import accounts, chain, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from superfluid_finance.provider import *
 import json
-from superfluid_finance.Factory import abi
+from superfluid_finance.abi.Factory import abi
 
 class SupertokenFatory:
 
@@ -73,7 +73,7 @@ class SupertokenFatory:
          * @param symbol Super token symbol
          */
     '''
-    def create_ERC20Wraper_decimals(
+    def create_erc20_wraper_decimals(
         self, underlying_token, underlyingDecimals, upgradability, name, symbol, account
     ):
         w3 = self.get_w3_instance()
@@ -116,7 +116,7 @@ class SupertokenFatory:
          * - It assumes token provides the .decimals() function
          */
     '''
-    def create_ERC20Wraper(self, underlying_token, upgradability, name, symbol, account):
+    def create_erc20_wraper(self, underlying_token, upgradability, name, symbol, account):
         w3 = self.get_w3_instance()
         factory_interface = self.get_interface()
         trx = factory_interface.functions.createERC20Wrapper(

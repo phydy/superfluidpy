@@ -3,7 +3,7 @@ from brownie import accounts, chain, network, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 from web3 import Web3
 import json
-from superfluid_finance.Superfluid import abi
+from superfluid_finance.abi.Superfluid import abi
 from superfluid_finance.provider import *
 
 class Host():
@@ -251,8 +251,6 @@ class Host():
         private_key=account.private_key
         signing_tx=self.w3.eth.account.sign_transaction(trx, private_key=private_key)
         self.w3.eth.send_raw_transaction(signing_tx.rawTransaction)
-        tx_rc = self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
-        return (
-            f"hash: {self.w3.toHex(signing_tx.hash)}",
-            f"hash: {self.w3.toHex(tx_rc)}"
-        )
+        self.w3.eth.wait_for_transaction_receipt(signing_tx.hash)
+        hex_trx = self.w3.toHex(f"{signing_tx.hash}")
+        return f"hash: {hex_trx}"

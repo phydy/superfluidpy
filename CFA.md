@@ -17,7 +17,7 @@ account = accounts.load(<local account name>)
 
 ## Import The module
 ```
->>> from superfluid_finance.CFAV1 import CFA 
+>>> from superfluid_finance.cfa import CFA 
 ```
 This module uses one class to create an instance of the contract that is used to create the methods in the module. like the super token module, this one also require us to instantiate a class before interacting with the interface. The class automatically loads the contract on the active chain.
 

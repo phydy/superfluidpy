@@ -1,6 +1,6 @@
 
 import pytest
-import superfluid_finance.CFAV1 as cfa
+import superfluid_finance.cfa as cfa
 from superfluid_finance import account_provider as a
 import web3
 from superfluid_finance.provider import infura_connect

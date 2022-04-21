@@ -1,5 +1,5 @@
 import pytest
-from superfluid_finance.IDAV1 import IDA
+from superfluid_finance.ida import IDA
 from superfluid_finance import account_provider as a
 import web3
 from superfluid_finance.provider import infura_connect

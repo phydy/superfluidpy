@@ -3,7 +3,7 @@ from superfluid_finance.host import Host
 from superfluid_finance.provider import *
 from brownie import accounts, chain, convert
 from superfluid_finance.con_addresses import addresses, is_allowed_network
-from superfluid_finance.IDA import abi
+from superfluid_finance.abi.IDA import abi
 import json
 
 '''
@@ -47,7 +47,7 @@ class IDA:
          * None
          */
     '''
-    def create_index(self, token, indexID, ctx, account):
+    def create_index(self, token, indexID, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="createIndex",
@@ -63,7 +63,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -121,7 +121,7 @@ class IDA:
          * None
          */
     '''
-    def update_index(self, token, IndexID, indexValue, ctx, account):
+    def update_index(self, token, IndexID, indexValue, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="updateIndex",
@@ -138,7 +138,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -203,7 +203,7 @@ class IDA:
          */
 
     '''
-    def approve_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+    def approve_subscription(self, token, publisher, indexId, subscriber, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="createIndex",
@@ -221,7 +221,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -237,7 +237,7 @@ class IDA:
         *    - agreementId is for the subscription
         */
     '''
-    def revoke_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+    def revoke_subscription(self, token, publisher, indexId, subscriber, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="createIndex",
@@ -255,7 +255,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -278,7 +278,7 @@ class IDA:
          *      - agreementId is for the subscription
          */
     '''
-    def update_subscription(self, token, indexId, subscriber, units, ctx, account):
+    def update_subscription(self, token, indexId, subscriber, units, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="createIndex",
@@ -296,7 +296,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -378,7 +378,7 @@ class IDA:
          */
     '''
 
-    def delete_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+    def delete_subscription(self, token, publisher, indexId, subscriber, userdata, account):
         ida = self.get_interface()
         encoded_data = ida.encodeABI(
             fn_name="createIndex",
@@ -396,7 +396,7 @@ class IDA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -417,7 +417,7 @@ class IDA:
         *    - agreementId is for the subscription
         */
     '''
-    def claim_subscription(self, token, publisher, indexId, subscriber, ctx, account):
+    def claim_subscription(self, token, publisher, indexId, subscriber, userdata, account):
         w3 = self.get_w3_istance()
         ida_interface = self.get_interface()
         trx = ida_interface.functions.claim(
@@ -425,7 +425,7 @@ class IDA:
             convert.to_address(publisher),
             indexId,
             convert.to_address(subscriber),
-            convert.to_bytes(ctx)
+            convert.to_bytes(userdata)
         ).buildTransaction(
             {   
                 "nonce": w3.eth.get_transaction_count(account.address),

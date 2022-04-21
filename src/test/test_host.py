@@ -1,6 +1,6 @@
 import pytest
 from superfluid_finance.host import Host
-from superfluid_finance import account_provider as a, con_addresses, CFAV1
+from superfluid_finance import account_provider as a, cfa, con_addresses
 import web3
 from superfluid_finance.provider import infura_connect
 
@@ -26,7 +26,7 @@ def token(w3):
 
 @pytest.fixture(scope="session")
 def _cfa():
-    return CFAV1.CFA("kovan", "infura")
+    return cfa.CFA("kovan", "infura")
 
 def test_get_factory(_host):
     factory = _host.get_SuperTokenFactory()

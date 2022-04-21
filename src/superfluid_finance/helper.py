@@ -1,4 +1,4 @@
-from superfluid_finance import helper_ABI
+from superfluid_finance.abi import helper_ABI
 from superfluid_finance.provider import provider_connect
 import json
 from brownie import convert

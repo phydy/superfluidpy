@@ -4,7 +4,7 @@ from superfluid_finance.provider import *
 from superfluid_finance.host import Host
 from superfluid_finance.con_addresses import addresses, is_allowed_network
 import json
-from superfluid_finance.CFA import abi
+from superfluid_finance.abi.CFA import abi
 from web3 import Web3
 import web3
 
@@ -80,7 +80,7 @@ class CFA:
          * - A extra gas fee may be taken to pay for solvency agent liquidations.
          */
     '''
-    def create_flow(self, token, receiver, flowRate, ctx, account):
+    def create_flow(self, token, receiver, flowRate, userdata, account):
         cfa_interface = self.get_interface()
         encoded_data = cfa_interface.encodeABI(
             fn_name="createFlow",
@@ -97,7 +97,7 @@ class CFA:
         return host.call_agreement(
             self.get_address(),
             actual_data, 
-            ctx,
+            userdata,
             account
         )
 
@@ -122,7 +122,7 @@ class CFA:
          * - No new gas fee is charged.
          */
     '''
-    def update_flow(self, token, receiver, flowRate, ctx, account):
+    def update_flow(self, token, receiver, flowRate, userdata, account):
         cfa_interface = self.get_interface()
         encoded_data = cfa_interface.encodeABI(
             fn_name="updateFlow",
@@ -139,7 +139,7 @@ class CFA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
@@ -148,7 +148,7 @@ class CFA:
         /**
          * @dev Delete the flow between sender and receiver
          * @param token Super token address.
-         * @param ctx Context bytes.
+         * @param userdata Context bytes.
          * @param receiver Flow receiver address.
          *
          * # App callbacks
@@ -164,7 +164,7 @@ class CFA:
          * - Gas fee may be returned to the sender.
          */
     '''
-    def delete_flow(self, token, sender, receiver, ctx, account):
+    def delete_flow(self, token, sender, receiver, userdata, account):
         cfa_interface = self.get_interface()
         encoded_data = cfa_interface.encodeABI(
             fn_name="updateFlow",
@@ -181,7 +181,7 @@ class CFA:
         return host.call_agreement(
             self.get_address(), 
             actual_data,
-            ctx,
+            userdata,
             account
         )
 
