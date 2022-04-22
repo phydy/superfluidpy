@@ -67,7 +67,6 @@ class IDA:
             account
         )
 
-
     '''
         /**
          * @dev Query the data of a index.

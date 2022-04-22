@@ -52,7 +52,7 @@ Cconfirm the pachage is imported by running these commands.
 
 **NOTE:** ensure you have exported the appropirate environment variables
 ```
->>> import provider
+>>> from superfluid_finance import provider
 >>> provider.infura_connect(kovan)
 ```
 

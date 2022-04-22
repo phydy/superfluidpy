@@ -27,7 +27,7 @@ def infura_connect(chain):
 def moralis_connect(CHAIN):
     return Web3(
         Web3.HTTPProvider(
-            f"{os.environ.get(f'MORALIS_{isupper(CHAIN)}_URL')}"
+            f"{os.environ.get(f'MORALIS_{CHAIN.upper()}_URL')}"
         )
     )
 
@@ -37,22 +37,22 @@ def moralis_connect(CHAIN):
     * @dev: export MORALIS_{CHAIN}_ULS='moralis url' 
 '''
 def alchemy_connect(CHAIN):
-    if islower(CHAIN) == "kovan" or "ropsten" or "goerli" or "rinkeby":
+    if CHAIN.lower() == "kovan" or "ropsten" or "goerli" or "rinkeby":
         return Web3(
             Web3.HTTPProvider(
-                f"https://eth-{islower(CHAIN)}.alchemyapi.io/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+                f"https://eth-{CHAIN.lower()}.alchemyapi.io/v2/{os.environ.get(f'ALCHEMY_{CHAIN.upper()}_KEY')}"
             )
         )
     elif islower(CHAIN) == "mumbai":
         return Web3(
             Web3.HTTPProvider(
-                f"https://polygon-mumbai.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+                f"https://polygon-mumbai.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{CHAIN.upper()}_KEY')}"
             )
         )
     elif islower(CHAIN) == "polygon":
         return Web3(
             Web3.HTTPProvider(
-                f"https://polygon-mainnet.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{isupper(CHAIN)}_KEY')}"
+                f"https://polygon-mainnet.g.alchemy.com/v2/{os.environ.get(f'ALCHEMY_{CHAIN.upper()}_KEY')}"
             )
         )
     
